@@ -2,3 +2,6 @@ node_modules/
 abis/
 cache/
 typechain-types/
+contracts/artifacts
+
+.env

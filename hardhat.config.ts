@@ -2,24 +2,29 @@ import "@nomiclabs/hardhat-etherscan"
 import "@nomiclabs/hardhat-waffle"
 import "@typechain/hardhat"
 import "hardhat-gas-reporter"
+import "dotenv/config"
+import "hardhat-deploy"
+import { HardhatUserConfig } from "hardhat/config"
 // eslint-disable-next-line import/no-extraneous-dependencies
 import "solidity-coverage"
 
-module.exports = {
+const rinkebyUrl =
+  process.env.RINKEBY_URL || "https://rinkeby.infura.io/v3/your-api-key"
+const accountPrivateKey = process.env.ACCOUNT_PRIVATE_KEY || "privateKey"
+
+const config: HardhatUserConfig = {
+  defaultNetwork: "hardhat",
   solidity: {
-    version: "0.8.7",
+    version: "0.8.9",
     settings: {
       optimizer: { enabled: true, runs: 200 },
     },
   },
-  defaultNetwork: "hardhat",
   networks: {
     hardhat: {},
     rinkeby: {
-      url: "https://rinkeby.infura.io/v3/27zTE6GnrY7RsTBlOFBHNAtJRk5",
-      accounts: [
-        "aac07909424f321440bb91472d67e278b2532b7d5c82633bcba0eaef571fe3de",
-      ],
+      url: rinkebyUrl,
+      accounts: [accountPrivateKey],
     },
     test: {
       url: "http://localhost:8545",
@@ -38,3 +43,5 @@ module.exports = {
     timeout: 20000,
   },
 }
+
+export default config

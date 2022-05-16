@@ -15,17 +15,16 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const Governor = await ethers.getContractFactory("Governor")
-  const governorContract = await Governor.deploy()
-
-  const Token = await ethers.getContractFactory("Token")
+  const Token = await ethers.getContractFactory("GovernanceToken")
   const tokenContract = await Token.deploy()
-
-  await governorContract.deployed()
   await tokenContract.deployed()
+  console.log("Token deployed to:", tokenContract.address)
+
+  const Governor = await ethers.getContractFactory("MyGovernor")
+  const governorContract = await Governor.deploy(tokenContract.address)
+  await governorContract.deployed()
 
   console.log("Governor deployed to:", governorContract.address)
-  console.log("Token deployed to:", tokenContract.address)
 }
 
 // We recommend this pattern to be able to use async/await everywhere
